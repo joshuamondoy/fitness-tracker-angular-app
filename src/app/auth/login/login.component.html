@@ -1,0 +1,35 @@
+<form 
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="0.5rem"
+    #f="ngForm"
+    (ngSubmit)="onSubmit(f)">
+    <mat-form-field>
+        <input 
+            type="email"
+            name="email"
+            placeholder="Your email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            matInput    
+            ngModel
+            required>
+        <mat-hint>Please enter a valid email</mat-hint>
+        <mat-error>Invalid email</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+        type="password"
+        name="password"
+        ngModel
+        matInput
+        required
+        placeholder="Your password">
+    </mat-form-field>
+    <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="f.invalid"
+        >Submit
+    </button>
+</form>
