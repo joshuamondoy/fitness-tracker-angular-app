@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 @Injectable() // this is to inject routing service in this service
 export class AuthService {
     authChange = new Subject<boolean>();
+    userEmail = new Subject<string>();
     private user: User;
 
     constructor(private router: Router) {}
@@ -24,6 +25,7 @@ export class AuthService {
             userId: Math.round(Math.random() * 10000).toString()
         };
        this.authSucessfull();
+
     }
 
     logout() {

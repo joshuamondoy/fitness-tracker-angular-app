@@ -21,8 +21,7 @@ maxDate: Date;
       email: value.email,
       password: value.password
     });
-    
-    
+    this.authService.userEmail.next(value.email)
   }
 
 }

@@ -2,8 +2,8 @@ a {
     text-decoration: none;
     color: white;
 }
-a:hover,
-a:active{
+.link:hover,
+.link:active{
     color: lightgrey;
 }
 .navigation-items {
@@ -16,3 +16,8 @@ a:active{
     display: inline-block;
     padding-left: .4rem;
 }
+.account:hover {
+    background: none;
+    
+}
+

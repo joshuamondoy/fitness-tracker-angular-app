@@ -1,11 +1,19 @@
 a {
     text-decoration: none;
     color: white;
+    padding: .5rem;
+    border-radius: 5px;
 }
 a:hover,
 a:active{
-    color: lightgrey;
+    background-color: rgb(0, 0, 0, 0.2);
+
 }
 ul > li {
     list-style: none;
+}
+button {
+    border: none;
+    background-color: transparent;
+    
 }

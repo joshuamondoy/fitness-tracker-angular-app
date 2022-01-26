@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
       email: value.email,
       password: value.password
     });
+    this.authService.userEmail.next(value.email)
     
   }
 
