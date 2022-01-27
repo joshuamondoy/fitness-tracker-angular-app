@@ -18,10 +18,14 @@
                 </span>
             </li>
             <li *ngIf="isAuth" fxFlex>
-                <mat-select routerLink="/training">
-                    <mat-option>
+                <mat-select>
+                    <mat-option routerLink="">
+                        <mat-icon>home</mat-icon>
+                        <button>Home</button>
+                    </mat-option>
+                    <mat-option routerLink="/training">
                         <mat-icon>fitness_center</mat-icon>
-                        <button>Training}</button>
+                        <button>Training</button>
                     </mat-option>
                     <mat-option (click)="onLogout()"  style="cursor: pointer;">
                         <mat-icon>eject</mat-icon>

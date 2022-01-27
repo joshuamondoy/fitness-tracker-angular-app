@@ -4,7 +4,7 @@
         <mat-card-title>Time to start a workout!</mat-card-title>
         <mat-card-content>
             <mat-form-field appearance="fill">
-                <mat-select placeholder="Choose exercise" ngModel name="exercise" required>
+                <mat-select placeholder="Choose your exercise" ngModel name="exercise" required>
                   <mat-option 
                     *ngFor="let exercise of exercises" 
                     [value]="exercise.name"

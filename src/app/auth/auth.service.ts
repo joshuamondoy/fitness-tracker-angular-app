@@ -1,49 +1,63 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
-import { User } from "./user.model";
 import { Router } from "@angular/router";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
 
 @Injectable() // this is to inject routing service in this service
 export class AuthService {
     authChange = new Subject<boolean>();
     userEmail = new Subject<string>();
-    private user: User;
+    private isAuthenticated: boolean = false;
 
-    constructor(private router: Router) {}
+    constructor(private router: Router, private afAuth: AngularFireAuth) {}
+    initAuthListener() {
+        this.afAuth.authState.subscribe(user => {
+            if(user) {
+                this.isAuthenticated = true;
+                this.authChange.next(true)
+                this.router.navigate(['/training']) 
+            } else {
+                this.authChange.next(false);
+                this.router.navigate(['/login']);
+                this.isAuthenticated = false;
+            }
+        });
+    }
+    
     registerUser(authData: AuthData) {
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() * 10000).toString()
-        };
-        this.authSucessfull();
+        this.afAuth.createUserWithEmailAndPassword(
+            authData.email, 
+            authData.password)
+            .then(result => {
+                this.initAuthListener();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        
     }
 
     login(authData: AuthData) {
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() * 10000).toString()
-        };
-       this.authSucessfull();
+        this.afAuth.signInWithEmailAndPassword(
+            authData.email,
+            authData.password
+        )
+        .then(result => {
+            this.initAuthListener();
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
     }
 
+    isAuth() { // This is used in auth-guard 
+        return this.isAuthenticated;
+    }
     logout() {
-        this.user = null;
-        this.authChange.next(false)
-        this.router.navigate(['/login'])
+        this.afAuth.signOut();
     }
 
-    getUser() {
-        return {...this.user}; // spread operator separates the values of the object into separate individual value so this will return a new object with the same key value pairs of object user
-    }
 
-    isAuth() {
-        return this.user != null;
-    }
-
-    authSucessfull() {
-        this.authChange.next(true)
-        this.router.navigate(['/training']) 
-    }
 }
