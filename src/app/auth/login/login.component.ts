@@ -10,8 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  isLoading: boolean = false;
-  loadingSubs: Subscription;
+  isLoading = false;
+  private loadingSubs: Subscription;
   constructor(private authService: AuthService,
               private uiService: UIService) { }
 

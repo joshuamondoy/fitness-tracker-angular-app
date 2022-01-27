@@ -12,6 +12,7 @@ export class CurrentTrainingComponent implements OnInit {
   progress: number = 0;
   timer: number;
   exerciseName: string;
+  
   constructor(private dialog: MatDialog, private trainingService: TrainingService) { }
 
   ngOnInit(): void {

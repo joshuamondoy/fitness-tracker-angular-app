@@ -3,6 +3,10 @@ import { Subject} from "rxjs";
 import { map } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { UIService } from "../shared/ui.service";
+import { Subscription } from "rxjs";
+import { MatDialog } from '@angular/material/dialog';
+import { CompletedTrainingComponent } from "./current-training/completed-training.component";
 
 
 @Injectable() // Annotation for AngularFirestore
@@ -13,14 +17,19 @@ export class TrainingService {
     finishedExercisesChanged = new Subject<Exercise[]>();
     private availableExercises: Exercise[] = [];
     private runningExercise: Exercise;
+    private fbSubs: Subscription[] = []; 
 
-    constructor(private db: AngularFirestore) {}
+    constructor(private db: AngularFirestore,
+                private dialog: MatDialog,
+                private uiService: UIService) {}
 
     fetchAvailabelExercises() {
-        this.db.collection('availableExercises')
+        this.uiService.loadingStateChange.next(true);
+        this.fbSubs.push(this.db.collection('availableExercises')
         .snapshotChanges()
         .pipe(map(docArray => {
         return docArray.map(doc => {
+            // throw(new Error())
             return{
                 id: doc.payload.doc.id,
                 name: doc.payload.doc.data()['name'],
@@ -30,9 +39,14 @@ export class TrainingService {
         });
      }))
     .subscribe((exercises: Exercise[]) => {
+        this.uiService.loadingStateChange.next(false);
         this.availableExercises = exercises;
-        this.exercisesChanged.next([...this.availableExercises])
-    })};
+        this.exercisesChanged.next([...this.availableExercises]);
+    }, error => {
+        this.uiService.loadingStateChange.next(false);
+        this.uiService.showSnackbar('Fetching exercises failed. Please try again later.', null, 3000)
+        this.exercisesChanged.next(null);
+    }))};
 
     private addDataToDatabase(exercise: Exercise) {
         this.db.collection('finishedExercises')
@@ -41,11 +55,14 @@ export class TrainingService {
     }
     
     fetchCompletedOrCancelledExercises() {
-        this.db.collection('finishedExercises')
+        this.uiService.loadingStateChange.next(true);
+        this.fbSubs.push(this.db.collection('finishedExercises')
         .valueChanges()
         .subscribe((exercises: Exercise[]) => {
             this.finishedExercisesChanged.next(exercises)
-        })
+            this.uiService.loadingStateChange.next(false)
+
+        }));
     }
 
     startExercise(selectedId: string) {
@@ -63,7 +80,8 @@ export class TrainingService {
             date: new Date(), 
             state: 'Completed'
         });
-        
+        const dialogRef = this.dialog.open(CompletedTrainingComponent);
+        dialogRef.afterClosed()
         this.runningExercise = null;
         this.exerciseChanged.next(null);
     }
@@ -82,5 +100,9 @@ export class TrainingService {
 
     getRunningExercise() {
         return {...this.runningExercise};
+    }
+    cancelSubscriptions() {
+        // this is for the error upon logout("Missing or insufficient permission")
+        this.fbSubs.forEach(sub => sub.unsubscribe())
     }
 }

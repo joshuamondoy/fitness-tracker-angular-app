@@ -23,6 +23,7 @@ import { StopTrainingComponent } from './training/current-training/stop-training
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.sevice';
 import { UIService } from './shared/ui.service';
+import { CompletedTrainingComponent } from './training/current-training/completed-training.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { UIService } from './shared/ui.service';
     HeaderComponent,
     SidenavListComponent,
     StopTrainingComponent, 
+    CompletedTrainingComponent
     
   ],
   imports: [
@@ -55,6 +57,6 @@ import { UIService } from './shared/ui.service';
   ],
   providers: [AuthService, TrainingService, UIService], // This will unsure that we only use one instance of this service within this project
   bootstrap: [AppComponent],
-  entryComponents: [StopTrainingComponent] // to open it programmatically
+  entryComponents: [StopTrainingComponent, CompletedTrainingComponent] // to open it programmatically
 })
 export class AppModule { }

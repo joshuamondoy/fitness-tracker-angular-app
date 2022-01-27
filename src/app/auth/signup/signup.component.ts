@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class SignupComponent implements OnInit, OnDestroy {
   maxDate: Date;
   isLoading: boolean = false;
-  loadingSubs: Subscription;
+  private loadingSubs: Subscription;
   constructor(private authService: AuthService,
               private uiService: UIService) { }
 
@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     });
     this.authService.userEmail.next(value.email)
   }
-  
+
   ngOnDestroy(): void {
     this.loadingSubs.unsubscribe();
   }
