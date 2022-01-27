@@ -47,12 +47,14 @@
             name="agree"
             >Agree to Terms and Condition.
         </mat-checkbox>
-        <button 
+        <button
+            *ngIf="!isLoading" 
             mat-flat-button 
             color="primary" 
             type="submit"
             [disabled]="f.invalid"
             >Submit
         </button>
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
     </form>
 </section>

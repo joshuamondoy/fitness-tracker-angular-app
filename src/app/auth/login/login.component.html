@@ -27,10 +27,12 @@
         <mat-hint>Please your password</mat-hint>
     </mat-form-field>
     <button
+        *ngIf="!isLoading"
         type="submit"
         mat-flat-button
         color="primary"
         [disabled]="f.invalid"
         >Submit
     </button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
 </form>

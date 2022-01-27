@@ -3,6 +3,8 @@ import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { UIService } from "../shared/ui.service";
 
 @Injectable() // this is to inject routing service in this service
 export class AuthService {
@@ -10,7 +12,10 @@ export class AuthService {
     userEmail = new Subject<string>();
     private isAuthenticated: boolean = false;
 
-    constructor(private router: Router, private afAuth: AngularFireAuth) {}
+    constructor(private router: Router, 
+                private afAuth: AngularFireAuth,
+                private snackBar: MatSnackBar,
+                private uiService: UIService) {}
     initAuthListener() {
         this.afAuth.authState.subscribe(user => {
             if(user) {
@@ -26,28 +31,37 @@ export class AuthService {
     }
     
     registerUser(authData: AuthData) {
+        this.uiService.loadingStateChange.next(true);
         this.afAuth.createUserWithEmailAndPassword(
             authData.email, 
             authData.password)
             .then(result => {
+                this.uiService.loadingStateChange.next(false);
                 this.initAuthListener();
             })
             .catch(err => {
-                console.log(err);
+                this.uiService.loadingStateChange.next(false);
+                this.snackBar.open(err.message, null, {
+                    duration: 5000  
+                })
             });
-        
     }
 
     login(authData: AuthData) {
+        this.uiService.loadingStateChange.next(true);
         this.afAuth.signInWithEmailAndPassword(
             authData.email,
             authData.password
         )
         .then(result => {
+            this.uiService.loadingStateChange.next(false);
             this.initAuthListener();
         })
         .catch(err => {
-            console.log(err);
+            this.uiService.loadingStateChange.next(false);
+            this.snackBar.open("Invalid email or password. " + err.message, null, {
+                duration: 5000  
+            })
         });
 
     }
