@@ -19,6 +19,7 @@ export class SidenavListComponent implements OnInit, OnDestroy {
     .subscribe(authStatus => {
       this.isAuth = authStatus
     })
+    
     this.authService.userEmail
     .subscribe(email => {
       const splitEmail = email.split("@");

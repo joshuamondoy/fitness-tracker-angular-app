@@ -68,7 +68,7 @@ export class AuthService {
     }
     logout() {
         this.trainingService.cancelSubscriptions();
-        this.uiService.showSnackbar("Your are logged out", null, 3000);
+        this.uiService.showSnackbar("You're logged out", null, 3000);
         this.afAuth.signOut();
     }
 
