@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
   selector: 'app-stop-training',
   template: `<div fxLayoutAlign="center center" fxLayout="column">
                 <h1 mat-dialog-title>Congratulations!</h1>
-                <mat-dialog-content>You already completed.</mat-dialog-content>
+                <mat-dialog-content>You already completed the exercise.</mat-dialog-content>
                 <mat-dialog-actions>
                     <button mat-flat-button color="accent" [mat-dialog-close]="true">Close</button>
                 </mat-dialog-actions>
