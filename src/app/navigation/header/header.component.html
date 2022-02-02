@@ -9,15 +9,15 @@
     <div><a routerLink="/">FITNESS TRACKER</a></div>
     <div fxFlex fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="1rem" class="navigation-items">
-            <li *ngIf="!isAuth"><a routerLink="/signup">Signup</a></li>
-            <li *ngIf="!isAuth"><a routerLink="/login">Login</a></li>
-            <li *ngIf="isAuth">
+            <li *ngIf="!(isAuth$ | async)"><a routerLink="/signup">Signup</a></li>
+            <li *ngIf="!(isAuth$ | async)"><a routerLink="/login">Login</a></li>
+            <li *ngIf="isAuth$ | async">
                 <span fxLayout fxLayoutAlign="center center">
                     <mat-icon style="margin-right: .3rem;">account_circle</mat-icon>
                     <label>{{activeUser}}</label>
                 </span>
             </li>
-            <li *ngIf="isAuth" fxFlex>
+            <li *ngIf="isAuth$ | async" fxFlex>
                 <mat-select>
                     <mat-option routerLink="">
                         <mat-icon>home</mat-icon>

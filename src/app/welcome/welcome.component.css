@@ -1,4 +1,8 @@
 .welcome {
     text-align: center;
-     margin-top: 5rem;
+     margin: 5rem 2rem;
+}
+
+h1 {
+    margin: 0;
 }

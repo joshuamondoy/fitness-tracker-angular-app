@@ -4,7 +4,7 @@ import { Subject } from "rxjs";
 
 @Injectable()
 export class UIService {
-    loadingStateChange = new Subject<boolean>();
+    // loadingStateChange = new Subject<boolean>();
 
     constructor(private snackBar: MatSnackBar) {}
 

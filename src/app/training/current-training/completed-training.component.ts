@@ -9,7 +9,7 @@ import { TrainingService } from '../training.sevice';
                 <h1 mat-dialog-title>Congratulations!</h1>
                 <mat-dialog-content>You already completed {{ exerciseName }}.</mat-dialog-content>
                 <mat-dialog-actions>
-                    <button mat-raised-button [mat-dialog-close]="true">Close</button>
+                    <button mat-flat-button color="accent" [mat-dialog-close]="true">Close</button>
                 </mat-dialog-actions>
               </div>`
 })

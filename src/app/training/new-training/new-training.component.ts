@@ -1,10 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TrainingService } from '../training.sevice';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Exercise } from '../exercise.model';
 import { UIService } from 'src/app/shared/ui.service';
-
+import { Store } from '@ngrx/store';
+import * as fromTraining from '../training.reducer';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'app-new-training',
@@ -13,25 +15,28 @@ import { UIService } from 'src/app/shared/ui.service';
 })
 
 @Injectable()
-export class NewTrainingComponent implements OnInit, OnDestroy {
+export class NewTrainingComponent implements OnInit{
   @Output() trainingStart = new EventEmitter<void>();
-  exercises: Exercise[];
-  exerciseSubscription: Subscription;
-  isLoading: boolean = false;
+  // exercises: Exercise[];
+  exercises$: Observable<Exercise[]>;
+  // private exerciseSubscription: Subscription;
+  // isLoading: boolean = true;
+  isLoading$: Observable<boolean>;
   loadingSubs: Subscription;
 
  
   constructor(private trainingService: TrainingService,
-              private uiService: UIService) { }
+              private uiService: UIService,
+              private store: Store<{ui: fromTraining.State}>) { }
 
   ngOnInit() {
-    this.exerciseSubscription = this.trainingService.exercisesChanged
-    .subscribe(exercises => this.exercises = exercises)
-    this.loadingSubs = this.uiService.loadingStateChange
-    .subscribe(isLoading => {
-      this.isLoading = isLoading
-      }
-    );
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.exercises$ = this.store.select(fromTraining.getAvailableExercises);
+    // this.loadingSubs = this.uiService.loadingStateChange
+    // .subscribe(isLoading => {
+    //   this.isLoading = isLoading
+    //   }
+    // );
     this.fetchExercises();
     
   }
@@ -45,14 +50,14 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.trainingService.fetchAvailabelExercises()
   }
 
-  ngOnDestroy(): void {
-      if(this.loadingSubs ){
-        this.loadingSubs.unsubscribe();
-      }
+  // ngOnDestroy(): void {
+  //     if(this.loadingSubs ){
+  //       this.loadingSubs.unsubscribe();
+  //     }
       
-      if(this.exerciseSubscription) {
-        this.exerciseSubscription.unsubscribe();
-      }
-  }
+  //     if(this.exerciseSubscription) {
+  //       this.exerciseSubscription.unsubscribe();
+  //     }
+  // }
 
 }

@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { StoreModule } from "@ngrx/store";
 
 import { TrainingComponent } from "./training.component";
 import { NewTrainingComponent } from "./new-training/new-training.component";
@@ -9,6 +10,8 @@ import { CompletedTrainingComponent } from "./current-training/completed-trainin
 import { SharedModule } from "../shared/shared.module";
 import { AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { TrainingRoutingModule } from "./training-routing.module";
+import { trainingReducer } from "./training.reducer";
+import { reducers } from "../app.reducer";
 
 
 @NgModule({
@@ -23,7 +26,8 @@ import { TrainingRoutingModule } from "./training-routing.module";
     imports:[
         SharedModule,
         AngularFirestoreModule,
-        TrainingRoutingModule
+        TrainingRoutingModule, 
+        StoreModule.forFeature('training', trainingReducer)
     ],
     exports:[],
     entryComponents: [StopTrainingComponent, CompletedTrainingComponent] // to open it programmatically

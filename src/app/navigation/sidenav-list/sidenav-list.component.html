@@ -1,5 +1,5 @@
 <mat-nav-list>
-    <a mat-list-item *ngIf="isAuth" style="cursor:default;" class="account">
+    <a mat-list-item *ngIf="isAuth$ | async" style="cursor:default;" class="account">
         <mat-icon>account_circle</mat-icon>
         <span class="nav-caption">{{ activeUser }}</span>
     </a>
@@ -7,20 +7,20 @@
         <mat-icon>home</mat-icon>
         <span class="nav-caption">Home</span>
     </a>
-    <a mat-list-item routerLink="/signup" (click)="onToggleSidenav()" *ngIf="!isAuth" class="link">
+    <a mat-list-item routerLink="/signup" (click)="onToggleSidenav()" *ngIf="!(isAuth$ | async)" class="link">
         <mat-icon>person_add</mat-icon>
         <span class="nav-caption">Signup</span>
     </a>
-    <a mat-list-item routerLink="/login" (click)="onToggleSidenav()" *ngIf="!isAuth" class="link">
+    <a mat-list-item routerLink="/login" (click)="onToggleSidenav()" *ngIf="!(isAuth$ | async)" class="link">
         <mat-icon>input</mat-icon>
         <span class="nav-caption">Login</span>
     </a>
-    <a mat-list-item routerLink="/training" (click)="onToggleSidenav()" *ngIf="isAuth" class="link">
+    <a mat-list-item routerLink="/training" (click)="onToggleSidenav()" *ngIf="isAuth$ | async" class="link">
         <mat-icon>fitness_center</mat-icon>
         <span class="nav-caption">Training</span>
     </a>
     <a mat-list-item>
-       <button mat-icon-button routerLink="/login" (click)="onLogout()" *ngIf="isAuth" class="link">
+       <button mat-icon-button routerLink="/login" (click)="onLogout()" *ngIf="isAuth$ | async" class="link">
            <mat-icon>eject</mat-icon>
            <span class="nav-caption">Logout</span>
        </button>

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Exercise } from '../exercise.model';
 
 @Component({
   selector: 'app-stop-training',
@@ -7,8 +8,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
                 <h1 mat-dialog-title>Are you sure?</h1>
                 <mat-dialog-content>You already got {{ passedData.progress }} % progress</mat-dialog-content>
                 <mat-dialog-actions>
-                    <button mat-raised-button [mat-dialog-close]="true">Yes</button>
-                    <button mat-raised-button [mat-dialog-close]="false">No</button>
+                    <button mat-flat-button color="accent" [mat-dialog-close]="true">Yes</button>
+                    <button mat-stroked-button [mat-dialog-close]="false">No</button>
                 </mat-dialog-actions>
               </div>`
 })
